@@ -1,7 +1,12 @@
-require('dotenv').config();
+import { number } from "joi";
 
-const { PORT } = process.env;
+require("dotenv").config();
 
-export default {
+const { PORT, SECRET } = process.env;
+
+const config = {
   port: PORT || 3000,
+  secret: SECRET || "deepweb",
 };
+
+export default config;

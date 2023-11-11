@@ -1,7 +1,7 @@
-import { json, urlencoded } from 'body-parser';
-import express from 'express';
-import router from './router';
-import config from './config';
+import { json, urlencoded } from "body-parser";
+import express from "express";
+import router from "./router";
+import config from "./config";
 
 const app = express();
 
