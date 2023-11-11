@@ -4,15 +4,22 @@ import jwt from "jsonwebtoken";
 import { authToken } from "./authToken";
 import config from "../../config";
 
+import { User } from "../DataBase/Schemas/user";
+import { Login } from "../DataBase/Schemas/login";
+
 export async function login(req: Request, res: Response) {
   /// si esta en la base de datos darle un token
 
   try {
-    const { username } = req.params;
+    const { username, password, email } = req.params;
+
+    const userDocument = await User.find({ nickname: username })
+
+
 
     const token = jwt.sign({ username }, config.secret, { expiresIn: "1h" });
 
-    const dataUser = await validateRegister(req.body);
+    const validateUser = await validateRegister(req.body);
 
     res.send(token);
   } catch (err) {
