@@ -29,7 +29,8 @@ export async function register(req: Request, res: Response) {
         .json({ error: "Usuario o inicio de sesión ya existen." });
     }
 
-    const token = jwt.sign({ nickname }, "deepweb", { expiresIn: "7h" });
+    const token = jwt.sign({ email }, "deepweb", { expiresIn: "7h" });
+
     const hash = await bcrypt.hash(password, 10);
 
     const loginDocument = new Login({
@@ -43,6 +44,7 @@ export async function register(req: Request, res: Response) {
     const userDocument = new User({
       nickname,
       name,
+      photo,
       login: loginDocument._id,
     });
 

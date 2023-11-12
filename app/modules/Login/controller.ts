@@ -1,27 +1,35 @@
 import { Request, Response } from "express";
-import validateLogin from "./validateData";
 import jwt from "jsonwebtoken";
 import { authToken } from "./authToken";
 import config from "../../config";
 
-import { User } from "../DataBase/Schemas/user";
 import { Login } from "../DataBase/Schemas/login";
 
-export async function login(req: Request, res: Response) {
-  /// si esta en la base de datos darle un token
+export async function login(req: Request, res: Response) { 
 
   try {
-    const { username, password, email } = req.params;
+    const { password, email } = req.body;
 
-    const userDocument = await User.find({ nickname: username });
+    const loginDocument = await Login.find({ email: email });
 
-    const token = jwt.sign(username, config.secret, { expiresIn: "1h" });
+    if (!loginDocument) {
+      return res.send("error no esta definida la cuenta");
+    }
 
-    const validateUser = await validateLogin(req.body);
+    const token = jwt.sign({ email }, "deepweb", { expiresIn: "1h" });
 
-    res.send(token);
+    const loginSave = {
+      password,
+      email,
+      token,
+    };
+
+    await Login.findOneAndUpdate({ email: email }, loginSave);
+
+    res.send(loginDocument);
   } catch (err) {
-    res.sendStatus(401);
+    console.log(err);
+    res.status(401).json({ err: "El error en el Login" });
   }
 }
 

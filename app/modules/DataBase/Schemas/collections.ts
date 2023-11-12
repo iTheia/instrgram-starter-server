@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
 
 interface CollectionName {
-  name: string;
+  collectionName: string;
 }
 
 const collectionSchema = new Schema<CollectionName>({
-  name: { type: String, required: true },
+  collectionName: { type: String, required: true },
 });
 
 export const CollectionName = model<CollectionName>(
