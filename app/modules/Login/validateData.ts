@@ -15,7 +15,7 @@ interface userData {
   email: string;
 }
 
-export default async function validateRegister(form: userData) {
+export default async function validate(form: userData) {
   const value = await schema.validateAsync(form);
   return value;
 }

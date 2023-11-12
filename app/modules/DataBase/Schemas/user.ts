@@ -10,7 +10,7 @@ interface User {
 const userSchema = new Schema<User>({
   nickname: { type: String, required: true, unique: true },
   name: { type: String, required: true, unique: true },
-  photo: { type: Schema.Types.ObjectId },
+  photo: { type: Schema.Types.ObjectId, required: false },
   login: {
     type: Schema.Types.ObjectId,
     required: true,

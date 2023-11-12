@@ -10,4 +10,4 @@ app.use(urlencoded({ extended: true }));
 
 router(app);
 
-app.listen(config.port);
+app.listen(3000);

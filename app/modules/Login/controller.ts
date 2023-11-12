@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import validateRegister from "./validateLogin";
+import validateLogin from "./validateData";
 import jwt from "jsonwebtoken";
 import { authToken } from "./authToken";
 import config from "../../config";
@@ -13,13 +13,11 @@ export async function login(req: Request, res: Response) {
   try {
     const { username, password, email } = req.params;
 
-    const userDocument = await User.find({ nickname: username })
+    const userDocument = await User.find({ nickname: username });
 
+    const token = jwt.sign(username, config.secret, { expiresIn: "1h" });
 
-
-    const token = jwt.sign({ username }, config.secret, { expiresIn: "1h" });
-
-    const validateUser = await validateRegister(req.body);
+    const validateUser = await validateLogin(req.body);
 
     res.send(token);
   } catch (err) {

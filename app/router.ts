@@ -1,12 +1,14 @@
 import { Express } from "express";
 import { healthCheckRouter } from "./modules";
 
-import { routerList } from "./modules/Login/router";
+import { routerLogin } from "./modules/Login/router";
+import { routerRegister } from "./modules/Register/router";
 
 export default function (app: Express) {
   app.use("/health-check", healthCheckRouter);
 
-  app.use("/register", routerList);
+  app.use("/login", routerLogin);
+  app.use("/register", routerRegister);
 
   app.use((_, res) => {
     res.status(404).json({ error: "Not Found" });
