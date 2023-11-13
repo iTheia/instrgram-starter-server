@@ -11,4 +11,4 @@ app.use(urlencoded({ extended: true }));
 connectDb();
 router(app);
 
-app.listen(3000);
+app.listen(config.port);

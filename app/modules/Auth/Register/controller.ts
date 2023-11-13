@@ -27,17 +27,20 @@ export async function register(req: Request, res: Response) {
         .json({ error: "Usuario o inicio de sesión ya existen." });
     }
 
-    const token = jwt.sign({ email }, "deepweb", { expiresIn: "7h" });
-
     const hash = await bcrypt.hash(password, 10);
 
     const loginDocument = new Login({
       password: hash,
       email,
-      token,
     });
 
     await loginDocument.save();
+
+    const token = jwt.sign(
+      { name, photo, nickname, hash, email, loginId: loginDocument._id },
+      config.secret,
+      { expiresIn: "7h" }
+    );
 
     const userDocument = new User({
       nickname,

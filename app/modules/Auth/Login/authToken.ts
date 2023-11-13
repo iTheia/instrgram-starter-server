@@ -10,7 +10,7 @@ export const authToken = async (req: Request, res: Response) => {
       throw new Error();
     }
 
-    const decoded = jwt.verify(token, "deepweb") as JwtPayload;
+    const decoded = jwt.verify(token, config.secret) as JwtPayload;
 
     if (decoded.exp !== undefined && Date.now() > decoded.exp * 1000) {
       return res.send("Token is expired");
