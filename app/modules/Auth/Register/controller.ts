@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import validateRegister from "./validateData";
-import { User } from "../DataBase/Schemas/user";
-import { Login } from "../DataBase/Schemas/login";
+import { User } from "../store/user";
+import { Login } from "../store/login";
 import jwt from "jsonwebtoken";
-import config from "../../config";
+import config from "../../../config";
 import bcrypt from "bcrypt";
-
-require("../DataBase/connections");
 
 export async function register(req: Request, res: Response) {
   try {

@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
-import config from "../../config";
+import config from "../../../config";
 
 export const authToken = async (req: Request, res: Response) => {
   try {

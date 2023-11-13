@@ -5,6 +5,8 @@ interface Post {
   likes: Schema.Types.ObjectId;
   comments: Schema.Types.ObjectId;
   media: Schema.Types.ObjectId;
+  date: number;
+  hour: number;
 }
 
 const postSchema = new Schema<Post>({
@@ -12,6 +14,8 @@ const postSchema = new Schema<Post>({
   likes: { type: Schema.Types.ObjectId },
   comments: { type: Schema.Types.ObjectId },
   media: { type: Schema.Types.ObjectId },
+  date: { type: Number },
+  hour: { type: Number },
 });
 
 export const Post = model<Post>("Post", postSchema);

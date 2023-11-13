@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { authToken } from "./authToken";
-import config from "../../config";
+import config from "../../../config";
 
-import { Login } from "../DataBase/Schemas/login";
+import { Login } from "../store/login";
 
-export async function login(req: Request, res: Response) { 
-
+export async function login(req: Request, res: Response) {
   try {
     const { password, email } = req.body;
 
@@ -16,7 +15,7 @@ export async function login(req: Request, res: Response) {
       return res.send("error no esta definida la cuenta");
     }
 
-    const token = jwt.sign({ email }, "deepweb", { expiresIn: "1h" });
+    const token = jwt.sign({ email }, config.secret, { expiresIn: "1h" });
 
     const loginSave = {
       password,
