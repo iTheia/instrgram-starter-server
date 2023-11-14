@@ -153,7 +153,45 @@ export async function addComment(req: Request, res: Response) {
       userDoc = await User.findById(tokenDec.userId);
     }
 
-    await Post.findByIdAndUpdate(PostId,)
+    const commentDoc = new Comments({
+      user: userDoc?._id,
+      description: comment,
+    });
+
+    commentDoc.save();
+
+    const PostDoc = await Post.findById(PostId);
+
+    if (!PostDoc) {
+      res.sendStatus(404);
+    }
+
+    PostDoc?.comments.push(commentDoc.id);
+
+    res.send(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(400);
+  }
+}
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const { PostId } = req.params;
+
+    const tokenDec: JwtPayload | null = await authToken(req);
+
+    if (tokenDec === null) {
+      res.send("error token");
+    }
+    const PostDoc = await Post.findById(PostId);
+
+    if (!PostDoc) {
+      res.sendStatus(404);
+    }
+
+    await PostDoc?.deleteOne({ _id: PostDoc._id });
+
     res.send(200);
   } catch (err) {
     console.log(err);
