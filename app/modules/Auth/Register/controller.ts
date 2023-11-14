@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import validateRegister from "./validateData";
-import { User } from "../store/user";
-import { Login } from "../store/login";
+
+import { User } from "../../store/user";
+import { Login } from "../../store/login";
+import { Media } from "../../store/media";
+
 import jwt from "jsonwebtoken";
 import config from "../../../config";
 import bcrypt from "bcrypt";
@@ -36,17 +39,17 @@ export async function register(req: Request, res: Response) {
 
     await loginDocument.save();
 
-    const token = jwt.sign(
-      { name, photo, nickname, hash, email, loginId: loginDocument._id },
-      config.secret,
-      { expiresIn: "7h" }
-    );
+    const mediaDocument = new Media({ media: photo });
 
     const userDocument = new User({
-      nickname,
       name,
-      photo,
+      photo: mediaDocument._id,
+      nickname,
       login: loginDocument._id,
+    });
+
+    const token = jwt.sign({ userId: userDocument._id }, config.secret, {
+      expiresIn: "7h",
     });
 
     await userDocument.save();

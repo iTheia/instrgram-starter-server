@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 interface Comments {
   user: Schema.Types.ObjectId;
   description: string;
-  reply: Schema.Types.ObjectId;
+  reply?: Schema.Types.ObjectId;
   likes: Schema.Types.ObjectId;
 }
 

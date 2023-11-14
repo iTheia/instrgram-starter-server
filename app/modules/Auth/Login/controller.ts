@@ -1,31 +1,37 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { authToken } from "./authToken";
 import config from "../../../config";
-
-import { Login } from "../store/login";
+import { authToken } from "./authToken";
+import { Login } from "../../store/login";
+import { User } from "../../store/user";
+import bcrypt from "bcrypt";
 
 export async function login(req: Request, res: Response) {
   try {
     const { password, email } = req.body;
 
     const loginDocument = await Login.find({ email: email });
+    const hash = loginDocument[0];
+
+    const matchPassword = await bcrypt.compare(password, hash.password);
+
+    if (!matchPassword) {
+      return res.send("password incorrect");
+    }
 
     if (!loginDocument) {
       return res.send("error no esta definida la cuenta");
     }
 
-    const token = jwt.sign({ email }, config.secret, { expiresIn: "1h" });
+    const login = loginDocument[0];
+    const userDocument = await User.find({ login: login._id });
+    const userDoc = userDocument[0];
 
-    const loginSave = {
-      password,
-      email,
-      token,
-    };
+    const token = jwt.sign({ userId: userDoc._id }, config.secret, {
+      expiresIn: "7h",
+    });
 
-    await Login.findOneAndUpdate({ email: email }, loginSave);
-
-    res.send(loginDocument);
+    res.send(token);
   } catch (err) {
     console.log(err);
     res.status(401).json({ err: "El error en el Login" });
