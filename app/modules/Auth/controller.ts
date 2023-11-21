@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../../config";
-import { Login } from "./login";
-import { User } from "./user";
-import { Media } from "./media";
+import { Login } from "./store/login";
+import User from "./store/user";
+import { Media } from "./store/media";
 import bcrypt from "bcrypt";
-import { validateRequest } from "./validateData";
-import { FollowerList } from "./followerList";
+import { validateRequest } from "./store/validateData";
+import { FollowerList } from "./store/followerList";
 
 export async function login(req: Request, res: Response) {
   try {
