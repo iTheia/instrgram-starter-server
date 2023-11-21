@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { Post } from "../store/post";
-import { User } from "../store/user";
-import { Media } from "../store/media";
-import { authToken } from "./authToken";
-import { Likes } from "../Schemas/likes";
-import { Comments } from "../Schemas/comments";
+import { authToken } from "../../middleware/authToken";
+import { Likes } from "./store/likes";
+import { Comments } from "./store/comments";
 import { JwtPayload } from "jsonwebtoken";
 
 export async function likeComment(req: Request, res: Response) {
