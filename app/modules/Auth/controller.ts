@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../../config";
-import { authToken } from "../../middleware/authToken";
-import { Login } from "../Schemas/login";
-import { User } from "../Schemas/user";
-import { Media } from "../Schemas/media";
+import { Login } from "./login";
+import { User } from "./user";
+import { Media } from "./media";
 import bcrypt from "bcrypt";
 import { validateRequest } from "./validateData";
+import { FollowerList } from "./followerList";
 
 export async function login(req: Request, res: Response) {
   try {
@@ -71,19 +71,23 @@ export async function register(req: Request, res: Response) {
     await loginDocument.save();
 
     const mediaDocument = new Media({ media: photo });
+    mediaDocument.save();
 
     const userDocument = new User({
+      nickname,
       name,
       photo: mediaDocument._id,
-      nickname,
       login: loginDocument._id,
     });
+
+    const FollowDoc = new FollowerList({ user: userDocument._id });
+    await FollowDoc.save();
+
+    await userDocument.save();
 
     const token = jwt.sign({ userId: userDocument._id }, config.secret, {
       expiresIn: "7h",
     });
-
-    await userDocument.save();
 
     res.send(token);
   } catch (err) {
