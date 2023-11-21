@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import mongoose, { Schema, model, Types } from "mongoose";
 
 interface savedPost {
   user: Types.ObjectId;
@@ -12,4 +12,5 @@ const savedPostSchema = new Schema<savedPost>({
   name: { type: Schema.Types.ObjectId, required: true },
 });
 
-export const savedPost = model<savedPost>("savedPost", savedPostSchema);
+export const savedPost =
+  mongoose.models.savedPost || model<savedPost>("savedPost", savedPostSchema);

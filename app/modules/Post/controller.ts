@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Post } from "./store/post";
-import { User } from "./store/user";
+import User from "./store/user";
 import { Media } from "./store/media";
 import { authToken } from "../../middleware/authToken";
 import { Likes } from "./store/likes";

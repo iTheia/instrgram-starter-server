@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { authToken } from "../../middleware/authToken";
 import { JwtPayload } from "jsonwebtoken";
 import { FollowerList } from "./store/followerList";
-import { User } from "./store/user";
+import User from "./store/user";
 
 export async function following(req: Request, res: Response) {
   try {
@@ -82,7 +82,7 @@ export async function allFollowers(req: Request, res: Response) {
       "follower"
     );
 
-    const onlyFollowers = followDoc[0].follower?.map((x) => x);
+    const onlyFollowers = followDoc[0].follower?.map((x: any) => x);
 
     res.send(onlyFollowers);
   } catch (error) {
@@ -105,7 +105,7 @@ export async function allFollowings(req: Request, res: Response) {
       "following"
     );
 
-    const onlyFollowers = followDoc[0].following?.map((x) => x);
+    const onlyFollowers = followDoc[0].following?.map((x: any) => x);
 
     res.send(onlyFollowers);
   } catch (error) {

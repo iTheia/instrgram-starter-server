@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 interface Likes {
   user: Schema.Types.ObjectId;
@@ -10,4 +10,5 @@ const likesSchema = new Schema<Likes>({
   value: { type: Boolean, required: true },
 });
 
-export const Likes = model<Likes>("Likes", likesSchema);
+export const Likes =
+  mongoose.models.Likes || model<Likes>("Likes", likesSchema);

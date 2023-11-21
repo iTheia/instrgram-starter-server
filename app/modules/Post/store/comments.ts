@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 interface Comments {
   user: Schema.Types.ObjectId;
@@ -14,4 +14,5 @@ const commentsSchema = new Schema<Comments>({
   likes: { type: Schema.Types.ObjectId },
 });
 
-export const Comments = model<Comments>("Comments", commentsSchema);
+export const Comments =
+  mongoose.models.Comments || model<Comments>("Comments", commentsSchema);

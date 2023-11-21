@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 interface Post {
   user: Schema.Types.ObjectId;
@@ -20,4 +20,4 @@ const postSchema = new Schema<Post>({
   hour: { type: Number },
 });
 
-export const Post = model<Post>("Post", postSchema);
+export const Post = mongoose.models.Post || model<Post>("Post", postSchema);

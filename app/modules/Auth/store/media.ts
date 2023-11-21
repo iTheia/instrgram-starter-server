@@ -9,4 +9,4 @@ const mediaSchema = new Schema<Media>({
 });
 
 export const Media =
-  mongoose.models.media || model<Media>("media", mediaSchema);
+  mongoose.models.Media || model<Media>("media", mediaSchema);

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 interface User {
   nickname: string;
@@ -22,4 +22,6 @@ const userSchema = new Schema<User>({
   },
 });
 
-export const User = model<User>("User", userSchema);
+const User = mongoose.models.User || model<User>("User", userSchema);
+
+export default User;
