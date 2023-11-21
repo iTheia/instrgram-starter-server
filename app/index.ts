@@ -2,7 +2,7 @@ import { json, urlencoded } from "body-parser";
 import express from "express";
 import router from "./router";
 import config from "./config";
-import { connectDb } from "./modules/DataBase/connections";
+import { connectDb } from "./DataBase/connections";
 
 const app = express();
 
