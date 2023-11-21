@@ -7,15 +7,17 @@ import {
   saved,
   addComment,
   remove,
+  likePost,
 } from "./controller";
 
 const routerPost = Router({ mergeParams: true });
 
 routerPost.post("/", newPost);
 routerPost.get("/:postId", obtain);
-routerPost.get("/:PostId/comments", commentsPost);
-routerPost.post("/:PostId/saved", saved);
+routerPost.get("/:postId/comments", commentsPost);
+routerPost.post("/:postId/saved", saved);
 routerPost.patch("/:postId/comment", addComment);
-routerPost.delete("/:postId", addComment);
+routerPost.delete("/:postId", remove);
+routerPost.post("/:postId/like", likePost);
 
 export { routerPost };
