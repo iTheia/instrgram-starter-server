@@ -12,17 +12,17 @@ export async function login(req: Request, res: Response) {
   try {
     const { password, email } = req.body;
 
-    const loginDocument = await Login.find({ email: email });
-    const hash = loginDocument[0];
+    const loginDocument = await Login.findOne({ email: email });
 
+    if (!loginDocument) {
+      return res.send("error no esta definida la cuenta");
+    }
+
+    const hash = loginDocument[0];
     const matchPassword = await bcrypt.compare(password, hash.password);
 
     if (!matchPassword) {
       return res.send("password incorrect");
-    }
-
-    if (!loginDocument) {
-      return res.send("error no esta definida la cuenta");
     }
 
     const login = loginDocument[0];
