@@ -24,44 +24,18 @@ export async function following(req: Request, res: Response) {
     const userToFollow = await User.find({ nickname }).select("_id");
     const userIdFollow = userToFollow[0]._id;
 
-    followDoc[0]?.following?.push(userIdFollow);
+    const followingDoc = await FollowerList.find({ user: userIdFollow });
 
-    const followSave = new FollowerList(followDoc[0]);
-    await followSave.save();
+    followDoc[0]?.following?.push(userIdFollow);
+    followingDoc[0]?.follower?.push(userId);
+
+    const followSave1 = new FollowerList(followDoc[0]);
+    const followSave2 = new FollowerList(followingDoc[0]);
+
+    await followSave1.save();
+    await followSave2.save();
 
     res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    res.send(error);
-  }
-}
-
-export async function followers(req: Request, res: Response) {
-  try {
-    const { nickname } = req.params;
-
-    const tokenDec: JwtPayload | null = await authToken(req);
-
-    if (tokenDec === null) {
-      res.send("error token");
-    }
-
-    if ((await User.exists({ nickname })) === null) {
-      res.send("the user you are trying to follow does not exist");
-    }
-
-    const userId = tokenDec?.userId;
-    const userFollower = await User.find({ nickname }).select("_id");
-    const userIdFollower = userFollower[0]._id;
-
-    const followDoc = await FollowerList.find({ user: userIdFollower });
-
-    followDoc[0]?.follower?.push(userId);
-
-    const followSave = new FollowerList(followDoc[0]);
-    await followSave.save();
-
-    res.send(followSave);
   } catch (error) {
     console.log(error);
     res.send(error);
