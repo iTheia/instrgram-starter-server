@@ -11,7 +11,7 @@ interface Post {
 }
 
 const postSchema = new Schema<Post>({
-  user: { type: Schema.Types.ObjectId, required: true },
+  user: { type: Schema.Types.ObjectId, required: true, ref: 'User'},
   likes: { type: Schema.Types.ObjectId },
   description: { type: String },
   comments: [{ type: Schema.Types.ObjectId, ref: "Comments" }],

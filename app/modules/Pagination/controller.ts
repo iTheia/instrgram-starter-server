@@ -17,23 +17,17 @@ export async function PostPagination(req: Request, res: Response) {
 
     const followerList = await FollowerList.find({ user: tokenDec?.userId });
 
-    const arrayFollower = followerList[0].follower;
+    const post = await Post.aggregate([
+      {
+        $match: {
+          user: { $in: followerList[0].follower },
+        },
+      },
+      { $skip: page * LIMIT },
+      { $limit: LIMIT },
+    ]);
 
-    let allPost: any[] = [];
-
-    const postPromises = arrayFollower.map(async (id: any) => {
-      const post = await Post.findOne({ user: id });
-
-      if (post !== null) {
-        return allPost.push(post);
-      }
-    });
-
-    await Promise.all(postPromises);
-
-    allPost = allPost.slice(LIMIT * page, LIMIT * (page + 1));
-
-    res.send(allPost);
+    res.send(post);
   } catch (error) {
     res.send(error);
   }
