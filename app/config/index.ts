@@ -1,7 +1,15 @@
-require('dotenv').config();
+import "dotenv/config";
 
-const { PORT } = process.env;
+const { PORT, SECRET, URI, DATABASE } = process.env;
 
-export default {
-  port: PORT || 3000,
+type Secret = string;
+const SECRET_TOKEN: Secret = SECRET || "";
+
+const config = {
+  port: PORT,
+  secret: SECRET_TOKEN,
+  uri: URI || "",
+  database: DATABASE || "",
 };
+
+export default config;
